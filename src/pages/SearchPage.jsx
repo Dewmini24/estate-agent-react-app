@@ -3,28 +3,69 @@ import propertiesData from "../data/properties.json";
 
 function SearchPage() {
   const [typeFilter, setTypeFilter] = useState("any");
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
 
   const filteredProperties = propertiesData.properties.filter((property) => {
-    if (typeFilter === "any") return true;
-    return property.type.toLowerCase() === typeFilter;
+    // Type filter
+    if (typeFilter !== "any" && property.type.toLowerCase() !== typeFilter) {
+      return false;
+    }
+
+    // Min price filter
+    if (minPrice && property.price < Number(minPrice)) {
+      return false;
+    }
+
+    // Max price filter
+    if (maxPrice && property.price > Number(maxPrice)) {
+      return false;
+    }
+
+    return true;
   });
 
   return (
     <div>
-      <h2>Search Properties</h2>
+      <h2>Available Properties</h2>
 
-      {/* Property Type Filter */}
-      <label>
-        Property Type:&nbsp;
-        <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
-          <option value="any">Any</option>
-          <option value="house">House</option>
-          <option value="flat">Flat</option>
-        </select>
-      </label>
+      {/* Filters */}
+      <div style={{ marginBottom: "20px" }}>
+        <label>
+          Property Type:&nbsp;
+          <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
+            <option value="any">Any</option>
+            <option value="house">House</option>
+            <option value="flat">Flat</option>
+          </select>
+        </label>
 
-      <hr />
+        &nbsp;&nbsp;&nbsp;
 
+        <label>
+          Min Price (£):&nbsp;
+          <input
+            type="number"
+            value={minPrice}
+            onChange={(e) => setMinPrice(e.target.value)}
+            placeholder="e.g. 300000"
+          />
+        </label>
+
+        &nbsp;&nbsp;&nbsp;
+
+        <label>
+          Max Price (£):&nbsp;
+          <input
+            type="number"
+            value={maxPrice}
+            onChange={(e) => setMaxPrice(e.target.value)}
+            placeholder="e.g. 800000"
+          />
+        </label>
+      </div>
+
+      {/* Property list */}
       {filteredProperties.map((property) => (
         <div
           key={property.id}
@@ -36,11 +77,15 @@ function SearchPage() {
             style={{ width: "200px" }}
           />
           <h3>{property.type}</h3>
-          <p>£{property.price}</p>
+          <p>£{property.price.toLocaleString()}</p>
           <p>{property.bedrooms} bedrooms</p>
           <p>{property.location}</p>
         </div>
       ))}
+
+      {filteredProperties.length === 0 && (
+        <p>No properties match your price range.</p>
+      )}
     </div>
   );
 }
