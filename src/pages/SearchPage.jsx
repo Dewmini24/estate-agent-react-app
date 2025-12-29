@@ -6,6 +6,17 @@ function SearchPage() {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [minBedrooms, setMinBedrooms] = useState("");
+  const [dateAfter, setDateAfter] = useState("");
+
+  const parsePropertyDate = (added) => {
+  const months = {
+    January: 0, February: 1, March: 2, April: 3,
+    May: 4, June: 5, July: 6, August: 7,
+    September: 8, October: 9, November: 10, December: 11
+  };
+
+  return new Date(added.year, months[added.month], added.day);
+};
 
   const filteredProperties = propertiesData.properties.filter((property) => {
     // Type filter
@@ -26,6 +37,17 @@ function SearchPage() {
     // Min bedrooms filter
     if (minBedrooms && property.bedrooms < Number(minBedrooms)) {
       return false;
+    }
+
+    // Date added filter (after)
+    if (dateAfter) {
+        const propertyDate = parsePropertyDate(property.added);
+        
+        const selectedDate = new Date(dateAfter);
+        
+        if (propertyDate < selectedDate) {
+            return false;
+        }
     }
 
     return true;
@@ -82,6 +104,18 @@ function SearchPage() {
             min="0"
           />
         </label>
+
+        &nbsp;&nbsp;&nbsp;
+
+        <label>
+            Date Added After:&nbsp;
+            <input
+            type="date"
+            value={dateAfter}
+            onChange={(e) => setDateAfter(e.target.value)}
+            />
+        </label>
+
       </div>
 
       {/* Property list */}
