@@ -1,12 +1,35 @@
+import { useState } from "react";
 import propertiesData from "../data/properties.json";
 
 function SearchPage() {
+  const [typeFilter, setTypeFilter] = useState("any");
+
+  const filteredProperties = propertiesData.properties.filter((property) => {
+    if (typeFilter === "any") return true;
+    return property.type.toLowerCase() === typeFilter;
+  });
+
   return (
     <div>
-      <h2>Available Properties</h2>
+      <h2>Search Properties</h2>
 
-      {propertiesData.properties.map((property) => (
-        <div key={property.id} style={{ border: "1px solid #ccc", margin: "10px", padding: "10px" }}>
+      {/* Property Type Filter */}
+      <label>
+        Property Type:&nbsp;
+        <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
+          <option value="any">Any</option>
+          <option value="house">House</option>
+          <option value="flat">Flat</option>
+        </select>
+      </label>
+
+      <hr />
+
+      {filteredProperties.map((property) => (
+        <div
+          key={property.id}
+          style={{ border: "1px solid #ccc", margin: "10px", padding: "10px" }}
+        >
           <img
             src={property.picture}
             alt={property.type}
