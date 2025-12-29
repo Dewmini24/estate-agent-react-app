@@ -1,0 +1,115 @@
+{
+	"properties": [
+        {
+            "id":"prop1",
+			"type":"House",
+            "bedrooms":3,
+			"price":750000,
+			"tenure":"Freehold",
+			"description":"Attractive three bedroom semi-detached family home situated within 0.5 miles of Petts Wood station with fast trains to London and within easy walking distance of local shops, schools, bus routes and National Trust woodland. The property comprises; two receptions, fitted 18'9 x 10'1 kitchen/breakfast room and conservatory. The property also benefits from having a utility room and cloakroom. To the first floor there are three bedrooms and a family bathroom with separate WC. Additional features include double glazing, gas central heating and a well presented interior...",
+			"location":"Petts Wood Road, Petts Wood, Orpington BR5",
+			"picture":"images/prop1pic1small.jpg",
+			"url":"properties/prop1.html",
+            "added": {
+                "month":"October",
+                "day":12,
+                "year":2022
+            }
+        },
+		{
+            "id":"prop2",
+			"type":"Flat",
+            "bedrooms":2,
+			"price":399995,
+			"tenure":"Freehold",
+			"description":"Presented in excellent decorative order throughout is this two double bedroom, two bathroom, garden flat. <br>The modern fitted kitchen is open plan to the living room which boasts solid wooden floors and includes integrated appliances including a dishwasher & a washing machine. This large open plan benefits from bi folding doors onto a secluded private courtyard garden. Both bedrooms are double sized, and the family bathroom boasts a matching three piece suite a shower attachment over the bath. There is also a separate wet room. There are walnut doors throughout and wiring for Sky TV/aerial points in the living room/kitchen and both bedrooms.<br>This apartment being only five years old, is still under a 10 year building guarantee...",
+			"location":"Crofton Road Orpington BR6",
+			"picture":"images/prop2pic1small.jpg",
+			"url":"properties/prop2.html",
+            "added": {
+                "month":"September",
+                "day":14,
+                "year":2022
+            }
+        },
+        {
+            "id":"prop3",
+			"type":"House",
+            "bedrooms":5,
+			"price":1250000,
+			"tenure":"Freehold",
+			"description":"Stunning five bedroom detached executive home located in a prestigious residential area. This impressive property features a grand entrance hall, spacious living room with feature fireplace, separate dining room, and a luxurious fitted kitchen with integrated appliances and granite worktops. The ground floor also includes a study, utility room, and guest cloakroom. Upstairs, the master bedroom boasts an en-suite bathroom and fitted wardrobes, complemented by four additional double bedrooms and a family bathroom. The property benefits from a double garage, landscaped gardens, and driveway parking for multiple vehicles. Additional features include underfloor heating, security alarm system, and CCTV.",
+			"location":"Keston Avenue, Bromley BR2",
+			"picture":"images/prop3pic1small.jpg",
+			"url":"properties/prop3.html",
+            "added": {
+                "month":"November",
+                "day":28,
+                "year":2024
+            }
+        },
+        {
+            "id":"prop4",
+			"type":"Flat",
+            "bedrooms":1,
+			"price":285000,
+			"tenure":"Leasehold",
+			"description":"Modern one bedroom apartment situated on the third floor of a contemporary development. This stylish flat features an open-plan living area with modern fitted kitchen including integrated appliances, a spacious double bedroom with built-in storage, and a contemporary bathroom suite. The property benefits from floor-to-ceiling windows providing abundant natural light, wooden flooring throughout, and a private balcony with lovely views. Located within walking distance of West Wickham station with excellent transport links to central London. The development offers secure entry system, lift access, and allocated parking space. Perfect for first-time buyers or investors.",
+			"location":"Station Road, West Wickham BR4",
+			"picture":"images/prop4pic1small.jpg",
+			"url":"properties/prop4.html",
+            "added": {
+                "month":"December",
+                "day":5,
+                "year":2024
+            }
+        },
+        {
+            "id":"prop5",
+			"type":"House",
+            "bedrooms":4,
+			"price":895000,
+			"tenure":"Freehold",
+			"description":"Beautifully presented four bedroom Victorian semi-detached family home with original period features throughout. This charming property comprises entrance hallway with original floor tiles, two large reception rooms with bay windows and feature fireplaces, extended kitchen/dining room with bi-fold doors leading to the garden, and a ground floor WC. The first floor offers three double bedrooms and a single bedroom/study, plus a modern family bathroom. The property also features a loft conversion potential (STPP), gas central heating, double glazing, and attractive front and rear gardens. Conveniently located close to excellent schools, local amenities, and Hayes station.",
+            "location": "Hayes Lane, Bromley BR2",
+			"picture":"images/prop5pic1small.jpg",
+			"url":"properties/prop5.html",
+            "added": {
+                "month":"August",
+                "day":22,
+                "year":2024
+            }
+        },
+        {
+            "id":"prop6",
+			"type":"Flat",
+            "bedrooms":3,
+			"price":525000,
+			"tenure":"Leasehold",
+			"description":"Spacious three bedroom duplex apartment spanning two floors in a sought-after location. The accommodation comprises a bright and airy living room with dining area, modern fitted kitchen with breakfast bar, guest WC on the ground floor. Upstairs features three well-proportioned bedrooms (two doubles and one single), master bedroom with en-suite shower room, and a family bathroom. The property benefits from private entrance, allocated parking for two cars, communal gardens, and secure entry system. Recently redecorated throughout with neutral décor, new carpets, and energy-efficient lighting. Ideal for families seeking space and convenience.",
+			"location":"High Street, Orpington BR6",
+			"picture":"images/prop6pic1small.jpg",
+			"url":"properties/prop6.html",
+            "added": {
+                "month":"January",
+                "day":15,
+                "year":2024
+            }
+        },
+        {
+            "id":"prop7",
+			"type":"House",
+            "bedrooms":2,
+			"price":475000,
+			"tenure":"Freehold",
+			"description":"Charming two bedroom terraced cottage bursting with character and period charm. This delightful property features a cozy living room with log burner and exposed wooden beams, separate dining room, and a fitted kitchen with space for appliances. Upstairs offers two double bedrooms and a modern bathroom suite. The property benefits from a lovely south-facing rear garden, perfect for entertaining, plus a useful shed for storage. Further features include double glazing, gas central heating, and off-street parking. Located in a quiet residential area yet within easy reach of Chislehurst station, local shops, and highly regarded schools. Chain-free sale.",
+			"location":"Manor Park Road, Chislehurst BR7",
+			"picture":"images/prop7pic1small.jpg",
+			"url":"properties/prop7.html",
+            "added": {
+                "month":"March",
+                "day":18,
+                "year":2023
+            }
+        }
+]}
