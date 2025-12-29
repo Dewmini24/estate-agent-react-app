@@ -5,6 +5,7 @@ function SearchPage() {
   const [typeFilter, setTypeFilter] = useState("any");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
+  const [minBedrooms, setMinBedrooms] = useState("");
 
   const filteredProperties = propertiesData.properties.filter((property) => {
     // Type filter
@@ -19,6 +20,11 @@ function SearchPage() {
 
     // Max price filter
     if (maxPrice && property.price > Number(maxPrice)) {
+      return false;
+    }
+
+    // Min bedrooms filter
+    if (minBedrooms && property.bedrooms < Number(minBedrooms)) {
       return false;
     }
 
@@ -63,6 +69,19 @@ function SearchPage() {
             placeholder="e.g. 800000"
           />
         </label>
+
+        &nbsp;&nbsp;&nbsp;
+
+        <label>
+          Min Bedrooms:&nbsp;
+          <input
+            type="number"
+            value={minBedrooms}
+            onChange={(e) => setMinBedrooms(e.target.value)}
+            placeholder="e.g. 2"
+            min="0"
+          />
+        </label>
       </div>
 
       {/* Property list */}
@@ -84,7 +103,7 @@ function SearchPage() {
       ))}
 
       {filteredProperties.length === 0 && (
-        <p>No properties match your price range.</p>
+        <p>No properties match your criteria.</p>
       )}
     </div>
   );
