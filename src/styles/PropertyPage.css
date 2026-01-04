@@ -1,0 +1,72 @@
+.property-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px;
+  background: #ffffff;
+  min-height: 100vh;
+  border-radius: 12px;
+}
+
+/* GALLERY */
+.gallery {
+  margin-bottom: 30px;
+}
+
+.main-image {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.thumbnails {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.thumb {
+  width: 80px;
+  height: 60px;
+  object-fit: cover;
+  cursor: pointer;
+  opacity: 0.6;
+  border-radius: 4px;
+}
+
+.thumb.active {
+  opacity: 1;
+  border: 2px solid #1e40af;
+}
+
+/* TABS */
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tab {
+  padding: 10px 20px;
+  border: none;
+  background: #f1f5f9;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.tab.active {
+  background: #1e40af;
+  color: white;
+}
+
+/* CONTENT */
+.tab-content {
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+}
+
+.floorplan {
+  width: 100%;
+  max-width: 600px;
+}
