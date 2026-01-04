@@ -7,6 +7,7 @@ function SearchPage() {
   const [maxPrice, setMaxPrice] = useState("");
   const [minBedrooms, setMinBedrooms] = useState("");
   const [dateAfter, setDateAfter] = useState("");
+  const [postcode, setPostcode] = useState("");
 
   const parsePropertyDate = (added) => {
   const months = {
@@ -48,6 +49,13 @@ function SearchPage() {
         if (propertyDate < selectedDate) {
             return false;
         }
+    }
+    
+    // Postcode area filter
+    if (postcode) {
+      if (!property.location.toUpperCase().includes(postcode.toUpperCase())) {
+        return false;
+      }
     }
 
     return true;
@@ -116,6 +124,19 @@ function SearchPage() {
             />
         </label>
 
+        &nbsp;&nbsp;&nbsp;
+        
+        <label> 
+          Postcode Area:&nbsp;
+          <input
+          type="text"
+          value={postcode}
+          onChange={(e) => setPostcode(e.target.value)}
+          placeholder="e.g. BR5"
+          style={{ textTransform: "uppercase" }}
+          />
+        </label>
+   
       </div>
 
       {/* Property list */}
