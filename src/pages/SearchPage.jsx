@@ -9,6 +9,15 @@ function SearchPage() {
   const [dateAfter, setDateAfter] = useState("");
   const [postcode, setPostcode] = useState("");
 
+  const resetFilters = () => {
+    setTypeFilter("any");
+    setMinPrice("");
+    setMaxPrice("");
+    setMinBedrooms("");
+    setDateAfter("");
+    setPostcode("");
+  };
+
   const parsePropertyDate = (added) => {
   const months = {
     January: 0, February: 1, March: 2, April: 3,
@@ -136,6 +145,11 @@ function SearchPage() {
           style={{ textTransform: "uppercase" }}
           />
         </label>
+
+        &nbsp;&nbsp;&nbsp;
+        <button onClick={resetFilters}>
+          Reset Search
+        </button>
    
       </div>
 
