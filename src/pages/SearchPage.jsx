@@ -1,6 +1,7 @@
 import { useState } from "react";
 import propertiesData from "../data/properties.json";
 import "../styles/SearchPage.css"; 
+import { Link } from "react-router-dom";
 
 function SearchPage() {
   const [typeFilter, setTypeFilter] = useState("any");
@@ -220,9 +221,13 @@ function SearchPage() {
                   </div>
                 </div>
 
-                <button className="btn-view-details">
+                <Link
+                to={`/property/${property.id}`}
+                className="btn-view-details"
+                >
                   View Details
-                </button>
+                </Link>
+
               </div>
             </div>
           ))}
