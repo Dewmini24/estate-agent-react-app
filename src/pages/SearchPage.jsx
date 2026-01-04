@@ -1,5 +1,6 @@
 import { useState } from "react";
 import propertiesData from "../data/properties.json";
+import "../styles/SearchPage.css"; 
 
 function SearchPage() {
   const [typeFilter, setTypeFilter] = useState("any");
@@ -71,111 +72,172 @@ function SearchPage() {
   });
 
   return (
-    <div>
-      <h2>Available Properties</h2>
+  <div className="search-page">
+    {/* Header */}
+    <header className="header">
+      <div className="header-container">
+        <div className="logo">
+          <div className="logo-icon">YOUR HOME</div>
+          <span className="logo-text">💕</span>
+        </div>
+        <nav className="nav">
+          <a href="#" className="nav-link active">For Buyers</a>
+        </nav>
+      </div>
+    </header>
 
-      {/* Filters */}
-      <div style={{ marginBottom: "20px" }}>
-        <label>
-          Property Type:&nbsp;
-          <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
-            <option value="any">Any</option>
-            <option value="house">House</option>
-            <option value="flat">Flat</option>
-          </select>
-        </label>
-
-        &nbsp;&nbsp;&nbsp;
-
-        <label>
-          Min Price (£):&nbsp;
-          <input
-            type="number"
-            value={minPrice}
-            onChange={(e) => setMinPrice(e.target.value)}
-            placeholder="e.g. 300000"
-          />
-        </label>
-
-        &nbsp;&nbsp;&nbsp;
-
-        <label>
-          Max Price (£):&nbsp;
-          <input
-            type="number"
-            value={maxPrice}
-            onChange={(e) => setMaxPrice(e.target.value)}
-            placeholder="e.g. 800000"
-          />
-        </label>
-
-        &nbsp;&nbsp;&nbsp;
-
-        <label>
-          Min Bedrooms:&nbsp;
-          <input
-            type="number"
-            value={minBedrooms}
-            onChange={(e) => setMinBedrooms(e.target.value)}
-            placeholder="e.g. 2"
-            min="0"
-          />
-        </label>
-
-        &nbsp;&nbsp;&nbsp;
-
-        <label>
-            Date Added After:&nbsp;
-            <input
-            type="date"
-            value={dateAfter}
-            onChange={(e) => setDateAfter(e.target.value)}
-            />
-        </label>
-
-        &nbsp;&nbsp;&nbsp;
-        
-        <label> 
-          Postcode Area:&nbsp;
-          <input
-          type="text"
-          value={postcode}
-          onChange={(e) => setPostcode(e.target.value)}
-          placeholder="e.g. BR5"
-          style={{ textTransform: "uppercase" }}
-          />
-        </label>
-
-        &nbsp;&nbsp;&nbsp;
-        <button onClick={resetFilters}>
-          Reset Search
-        </button>
-   
+    {/* Hero Section */}
+    <div className="main-container">
+      <div className="hero-section">
+        <h1 className="hero-title">
+          Find a perfect home<br />you'll love
+        </h1>
+        <p className="hero-subtitle">
+          Search thousands of properties for sale, purchase or rental of real estates.
+        </p>
       </div>
 
-      {/* Property list */}
-      {filteredProperties.map((property) => (
-        <div
-          key={property.id}
-          style={{ border: "1px solid #ccc", margin: "10px", padding: "10px" }}
-        >
-          <img
-            src={property.picture}
-            alt={property.type}
-            style={{ width: "200px" }}
-          />
-          <h3>{property.type}</h3>
-          <p>£{property.price.toLocaleString()}</p>
-          <p>{property.bedrooms} bedrooms</p>
-          <p>{property.location}</p>
-        </div>
-      ))}
+      {/* Search Filters */}
+      <div className="filters-card">
+        <div className="filters-grid">
+          <div className="filter-group">
+            <label className="filter-label">Property Type</label>
+            <select 
+              value={typeFilter} 
+              onChange={(e) => setTypeFilter(e.target.value)}
+              className="filter-input"
+            >
+              <option value="any">Any</option>
+              <option value="house">House</option>
+              <option value="flat">Flat</option>
+            </select>
+          </div>
 
-      {filteredProperties.length === 0 && (
-        <p>No properties match your criteria.</p>
+          <div className="filter-group">
+            <label className="filter-label">Min Price (£)</label>
+            <input
+              type="number"
+              value={minPrice}
+              onChange={(e) => setMinPrice(e.target.value)}
+              placeholder="e.g. 300000"
+              className="filter-input"
+            />
+          </div>
+
+          <div className="filter-group">
+            <label className="filter-label">Max Price (£)</label>
+            <input
+              type="number"
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(e.target.value)}
+              placeholder="e.g. 800000"
+              className="filter-input"
+            />
+          </div>
+
+          <div className="filter-group">
+            <label className="filter-label">Min Bedrooms</label>
+            <input
+              type="number"
+              value={minBedrooms}
+              onChange={(e) => setMinBedrooms(e.target.value)}
+              placeholder="e.g. 2"
+              min="0"
+              className="filter-input"
+            />
+          </div>
+
+          <div className="filter-group">
+            <label className="filter-label">Date Added After</label>
+            <input
+              type="date"
+              value={dateAfter}
+              onChange={(e) => setDateAfter(e.target.value)}
+              className="filter-input"
+            />
+          </div>
+
+          <div className="filter-group">
+            <label className="filter-label">Postcode Area</label>
+            <input
+              type="text"
+              value={postcode}
+              onChange={(e) => setPostcode(e.target.value)}
+              placeholder="e.g. BR5"
+              className="filter-input postcode-input"
+            />
+          </div>
+        </div>
+
+        <div className="filters-grid">
+          <div className="filter-actions full-width">
+            <button onClick={resetFilters} className="btn-reset">
+              Reset
+            </button>
+            <button className="btn-search">
+              Search Property
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      {/* Results Header */}
+      <div className="results-header">
+        <h2 className="results-title">Available Properties</h2>
+        <p className="results-count">
+          {filteredProperties.length} {filteredProperties.length === 1 ? 'property' : 'properties'} found
+        </p>
+      </div>
+
+      {/* Property Grid */}
+      {filteredProperties.length > 0 ? (
+        <div className="property-grid">
+          {filteredProperties.map((property) => (
+            <div key={property.id} className="property-card">
+              <div className="property-image-wrapper">
+                <img
+                  src={property.picture}
+                  alt={property.type}
+                  className="property-image"
+                />
+                <div className="property-badge">
+                  {property.type}
+                </div>
+              </div>
+              
+              <div className="property-content">
+                <div className="property-price">
+                  £{property.price.toLocaleString()}
+                </div>
+                
+                <div className="property-details">
+                  <div className="property-detail">
+                    <span>🛏️ {property.bedrooms} Bedrooms</span>
+                  </div>
+                  <div className="property-detail">
+                    <span>📍 {property.location}</span>
+                  </div>
+                </div>
+
+                <button className="btn-view-details">
+                  View Details
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="empty-state">
+          <div className="empty-icon">🏠</div>
+          <h3 className="empty-title">No properties found</h3>
+          <p className="empty-text">Try adjusting your search criteria</p>
+        </div>
       )}
     </div>
-  );
+  </div>
+);
+
 }
 
 export default SearchPage;
