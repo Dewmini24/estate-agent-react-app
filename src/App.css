@@ -40,3 +40,40 @@
 .read-the-docs {
   color: #888;
 }
+
+.title-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.app-layout {
+  display: grid;
+  grid-template-columns: 35% 65%;
+  min-height: 100vh;
+  background-color: #000435;
+}
+
+/* LEFT SIDE */
+.left-panel {
+  padding: 80px 60px;
+  background-color: #000435;
+}
+
+.app-title {
+  font-size: 60px;
+  font-weight: 800;
+  color: #ffffff;
+  text-align: justify;
+}
+
+/* RIGHT SIDE */
+.right-panel {
+  background-color: #000435;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #000435; 
+}
