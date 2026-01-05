@@ -72,3 +72,10 @@
   margin: auto;
   display: block;
 }
+.tab:hover {
+  background: #e2e8f0;
+}
+
+.thumb:hover {
+  opacity: 0.85;
+}
