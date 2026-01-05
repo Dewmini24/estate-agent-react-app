@@ -29,6 +29,8 @@ function PropertyPage() {
     );
   }
 
+  const images = property.images || [];
+
   return (
     <div className="property-page">
 
@@ -58,25 +60,27 @@ function PropertyPage() {
       </div>
 
       {/* IMAGE GALLERY */}
-      <div className="gallery">
-        <img
-          src={`/${property.images[activeImage]}`}
-          alt={`${property.type} image`}
-          className="main-image"
-        />
+      {images.length > 0 && (
+        <div className="gallery">
+          <img
+            src={`/${images[activeImage]}`}
+            alt={`${property.type} image`}
+            className="main-image"
+          />
 
-        <div className="thumbnails">
-          {property.images.map((img, index) => (
-            <img
-              key={index}
-              src={`/${img}`}
-              alt={`Thumbnail ${index + 1}`}
-              className={`thumb ${index === activeImage ? "active" : ""}`}
-              onClick={() => setActiveImage(index)}
-            />
-          ))}
+          <div className="thumbnails">
+            {images.map((img, index) => (
+              <img
+                key={index}
+                src={`/${img}`}
+                alt={`Thumbnail ${index + 1}`}
+                className={`thumb ${index === activeImage ? "active" : ""}`}
+                onClick={() => setActiveImage(index)}
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* TABS */}
       <div className="tabs-container">
@@ -108,7 +112,7 @@ function PropertyPage() {
             <p>{property.description}</p>
           )}
 
-          {activeTab === "floorplan" && (
+          {activeTab === "floorplan" && property.floorPlan && (
             <img
               src={`/${property.floorPlan}`}
               alt="Floor Plan"
@@ -117,15 +121,18 @@ function PropertyPage() {
           )}
 
           {activeTab === "map" && (
-            <iframe
-              title="Property Location"
-              src={`https://maps.google.com/maps?q=${encodeURIComponent(
-                property.location
-              )}&output=embed`}
-              width="100%"
-              height="400"
-              loading="lazy"
-            />
+            <div className="map-container">
+              <iframe
+                title="Property Location"
+                src={`https://www.google.com/maps?q=${encodeURIComponent(
+                  property.location
+                )}&output=embed`}
+                width="100%"
+                height="400"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
           )}
         </div>
       </div>
