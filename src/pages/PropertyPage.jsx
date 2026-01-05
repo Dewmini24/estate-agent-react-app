@@ -60,7 +60,10 @@ function PropertyPage() {
       {/* GALLERY SECTION */}
       <div className="gallery">
         <img
-          src={`${import.meta.env.BASE_URL}${property.images?.[activeImage] || property.picture}`}
+          src={new URL(
+          property.images?.[activeImage] || property.picture,
+            import.meta.env.BASE_URL
+          ).href}
           alt={`${property.type} - Image ${activeImage + 1}`}
           className="main-image"
         />
@@ -70,7 +73,7 @@ function PropertyPage() {
             {property.images.map((img, index) => (
               <img
                 key={index}
-                src={`${import.meta.env.BASE_URL}${img}`}
+                src={new URL(img, import.meta.env.BASE_URL).href}
                 alt={`Thumbnail ${index + 1}`}
                 className={`thumb ${index === activeImage ? "active" : ""}`}
                 onClick={() => setActiveImage(index)}
@@ -114,7 +117,7 @@ function PropertyPage() {
           {activeTab === "floorplan" && (
             property.floorPlan ? (
               <img
-                src={`${import.meta.env.BASE_URL}${property.floorPlan}`}
+                src={new URL(property.floorPlan, import.meta.env.BASE_URL).href}
                 alt="Floor Plan"
               />
             ) : (
