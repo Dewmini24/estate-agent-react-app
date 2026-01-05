@@ -6,11 +6,11 @@ import "../styles/PropertyPage.css";
 function PropertyPage() {
   const { id } = useParams();
 
-  // 🔥 FIX: ensure correct matching
   const property = propertiesData.properties.find(
-    p => p.id.toString() === id
+    p => p.id === id
   );
 
+  const [activeImage, setActiveImage] = useState(0);
   const [activeTab, setActiveTab] = useState("description");
 
   if (!property) {
@@ -20,52 +20,94 @@ function PropertyPage() {
   return (
     <div className="property-page">
 
-      {/* DEBUG CONFIRMATION */}
+      {/* TITLE */}
       <h1 style={{ marginBottom: "20px" }}>
         {property.type} – £{property.price.toLocaleString()}
       </h1>
 
-      {/* IMAGE (simple version – SAFE) */}
-      <img
-        src={property.picture}
-        alt="Property"
-        className="main-image"
-      />
+      {/* IMAGE GALLERY */}
+      <div className="gallery">
+        <img
+          src={property.images[activeImage]}
+          alt={property.type}
+          className="main-image"
+        />
+
+        <div className="thumbnails">
+          {property.images.map((img, index) => (
+            <img
+              key={index}
+              src={img}
+              alt="thumbnail"
+              className={index === activeImage ? "thumb active" : "thumb"}
+              onClick={() => setActiveImage(index)}
+            />
+          ))}
+        </div>
+      </div>
 
       {/* TABS */}
       <div className="tabs">
         <button
-          className={activeTab === "description" ? "tab active" : "tab"}
-          onClick={() => setActiveTab("description")}
+        className={activeTab === "description" ? "tab active" : "tab"}
+        onClick={() => setActiveTab("description")}
         >
           Description
         </button>
-
+        
         <button
-          className={activeTab === "map" ? "tab active" : "tab"}
-          onClick={() => setActiveTab("map")}
+        className={activeTab === "floorplan" ? "tab active" : "tab"}
+        onClick={() => setActiveTab("floorplan")}
+        >
+          Floor Plan
+        </button>
+        
+        <button
+        className={activeTab === "map" ? "tab active" : "tab"}
+        onClick={() => setActiveTab("map")}
         >
           Map
         </button>
       </div>
 
+
       {/* TAB CONTENT */}
       <div className="tab-content">
+        
         {activeTab === "description" && (
-          <p>{property.description || "No description available."}</p>
+          <p>{property.description}</p>
         )}
 
+        {activeTab === "floorplan" && (
+          property.floorPlan ? (
+            <img
+              src={property.floorPlan}
+              alt="Floor Plan"
+              className="floorplan"
+            />
+          ) : (
+            <p>No floor plan available for this property.</p>
+          )
+        )}
+      
         {activeTab === "map" && (
           <iframe
             title="map"
-            src="https://maps.google.com/maps?q=London&t=&z=13&ie=UTF8&iwloc=&output=embed"
+            src={`https://maps.google.com/maps?q=${encodeURIComponent(
+              property.location
+            )}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
             width="100%"
             height="300"
           />
         )}
       </div>
 
-      <Link to="/" className="btn-view-details" style={{ marginTop: "20px", display: "inline-block" }}>
+      {/* BACK LINK */}
+      <Link
+        to="/"
+        className="btn-view-details"
+        style={{ marginTop: "20px", display: "inline-block" }}
+      >
         ← Back to Search
       </Link>
 

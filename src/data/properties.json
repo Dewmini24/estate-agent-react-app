@@ -10,6 +10,15 @@
 			"location":"Petts Wood Road, Petts Wood, Orpington BR5",
 			"picture":"images/prop1pic1small.jpg",
 			"url":"properties/prop1.html",
+            "images": [
+                "/images/prop1pic1small.jpg",
+                "/images/prop1pic2small.jpg",
+                "/images/prop1pic3small.jpg",
+                "/images/prop1pic4small.jpg",
+                "/images/prop1pic5small.jpg",
+                "/images/prop1pic6small.jpg"
+            ],
+            "floorPlan": "/images/prop1floorplan.jpg",
             "added": {
                 "month":"October",
                 "day":12,
@@ -26,6 +35,15 @@
 			"location":"Crofton Road Orpington BR6",
 			"picture":"images/prop2pic1small.jpg",
 			"url":"properties/prop2.html",
+            "images": [
+                "/images/prop2pic1small.jpg",
+                "/images/prop2pic2small.jpg",
+                "/images/prop2pic3small.jpg",
+                "/images/prop2pic4small.jpg",
+                "/images/prop2pic5small.jpg",
+                "/images/prop2pic6small.jpg"
+            ],
+            "floorPlan": "/images/prop2floorplan.jpg",
             "added": {
                 "month":"September",
                 "day":14,
@@ -42,6 +60,15 @@
 			"location":"Keston Avenue, Bromley BR2",
 			"picture":"images/prop3pic1small.jpg",
 			"url":"properties/prop3.html",
+            "images": [
+                "/images/prop3pic1small.jpg",
+                "/images/prop3pic2small.jpg",
+                "/images/prop3pic3small.jpg",
+                "/images/prop3pic4small.jpg",
+                "/images/prop3pic5small.jpg",
+                "/images/prop3pic6small.jpg"
+            ],
+            "floorPlan": "/images/prop3floorplan.jpg",
             "added": {
                 "month":"November",
                 "day":28,
@@ -58,6 +85,15 @@
 			"location":"Station Road, West Wickham BR4",
 			"picture":"images/prop4pic1small.jpg",
 			"url":"properties/prop4.html",
+            "images": [
+                "/images/prop4pic1small.jpg",
+                "/images/prop4pic2small.jpg",
+                "/images/prop4pic3small.jpg",
+                "/images/prop4pic4small.jpg",
+                "/images/prop4pic5small.jpg",
+                "/images/prop4pic6small.jpg"
+            ],
+            "floorPlan": "/images/prop4floorplan.jpg",
             "added": {
                 "month":"December",
                 "day":5,
@@ -74,6 +110,15 @@
             "location": "Hayes Lane, Bromley BR2",
 			"picture":"images/prop5pic1small.jpg",
 			"url":"properties/prop5.html",
+            "images": [
+                "/images/prop5pic1small.jpg",
+                "/images/prop5pic2small.jpg",
+                "/images/prop5pic3small.jpg",
+                "/images/prop5pic4small.jpg",
+                "/images/prop5pic5small.jpg",
+                "/images/prop5pic6small.jpg"
+            ],
+            "floorPlan": "/images/prop5floorplan.jpg",
             "added": {
                 "month":"August",
                 "day":22,
@@ -90,6 +135,15 @@
 			"location":"High Street, Orpington BR6",
 			"picture":"images/prop6pic1small.jpg",
 			"url":"properties/prop6.html",
+            "images": [
+                "/images/prop6pic1small.jpg",
+                "/images/prop6pic2small.jpg",
+                "/images/prop6pic3small.jpg",
+                "/images/prop6pic4small.jpg",
+                "/images/prop6pic5small.jpg",
+                "/images/prop6pic6small.jpg"
+            ],
+            "floorPlan": "/images/prop6floorplan.jpg",
             "added": {
                 "month":"January",
                 "day":15,
@@ -106,6 +160,15 @@
 			"location":"Manor Park Road, Chislehurst BR7",
 			"picture":"images/prop7pic1small.jpg",
 			"url":"properties/prop7.html",
+            "images": [
+                "/images/prop7pic1small.jpg",
+                "/images/prop7pic2small.jpg",
+                "/images/prop7pic3small.jpg",
+                "/images/prop7pic4small.jpg",
+                "/images/prop7pic5small.jpg",
+                "/images/prop7pic6small.jpg"
+            ],
+            "floorPlan": "/images/prop7floorplan.jpg",
             "added": {
                 "month":"March",
                 "day":18,
