@@ -299,3 +299,13 @@
     width: 100%;
   }
 }
+/* FIX select dropdown visibility */
+.search-form select {
+  background-color: #ffffff;
+  color: #111827;
+}
+
+.search-form option {
+  background-color: #ffffff;
+  color: #111827;
+}
