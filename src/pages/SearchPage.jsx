@@ -20,6 +20,7 @@ const SearchPage = () => {
   // Favorites state
   const [favorites, setFavorites] = useState([]);
   const [searchPerformed, setSearchPerformed] = useState(false);
+  const [removeZoneActive, setRemoveZoneActive] = useState(false);
 
   // Handle input changes
   const handleInputChange = (e) => {
@@ -30,7 +31,7 @@ const SearchPage = () => {
     }));
   };
 
-  // Parse date from property format (e.g., {month: "October", day: 12, year: 2022})
+  // Parse date from property format
   const parsePropertyDate = (dateObj) => {
     const monthMap = {
       January: 0, February: 1, March: 2, April: 3, May: 4, June: 5,
@@ -42,13 +43,11 @@ const SearchPage = () => {
   // Search logic
   const filteredProperties = useMemo(() => {
     return propertiesData.properties.filter(property => {
-      // Type filter
       if (searchCriteria.type !== 'any' && 
           property.type.toLowerCase() !== searchCriteria.type.toLowerCase()) {
         return false;
       }
 
-      // Price filters
       if (searchCriteria.minPrice && property.price < Number(searchCriteria.minPrice)) {
         return false;
       }
@@ -56,7 +55,6 @@ const SearchPage = () => {
         return false;
       }
 
-      // Bedroom filters
       if (searchCriteria.minBedrooms && property.bedrooms < Number(searchCriteria.minBedrooms)) {
         return false;
       }
@@ -64,7 +62,6 @@ const SearchPage = () => {
         return false;
       }
 
-      // Date filters
       const propertyDate = parsePropertyDate(property.added);
       if (searchCriteria.dateAfter) {
         const afterDate = new Date(searchCriteria.dateAfter);
@@ -75,7 +72,6 @@ const SearchPage = () => {
         if (propertyDate > beforeDate) return false;
       }
 
-      // Postcode filter (first part of postcode)
       if (searchCriteria.postcode) {
         const postcodePrefix = property.location.match(/[A-Z]+\d+/i)?.[0] || '';
         if (!postcodePrefix.toLowerCase().includes(searchCriteria.postcode.toLowerCase())) {
@@ -125,6 +121,32 @@ const SearchPage = () => {
     setFavorites([]);
   };
 
+  // Handle drag over main content area (remove zone)
+  const handleMainDragOver = (e) => {
+    const hasFavoriteData = e.dataTransfer.types.includes('remove-favorite');
+    if (hasFavoriteData) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      setRemoveZoneActive(true);
+    }
+  };
+
+  // Handle drag leave main content area
+  const handleMainDragLeave = () => {
+    setRemoveZoneActive(false);
+  };
+
+  // Handle drop on main content area (remove from favorites)
+  const handleMainDrop = (e) => {
+    e.preventDefault();
+    setRemoveZoneActive(false);
+    
+    const propertyId = e.dataTransfer.getData('remove-favorite');
+    if (propertyId) {
+      removeFromFavorites(propertyId);
+    }
+  };
+
   return (
     <div className="search-page">
       <header className="page-header">
@@ -138,10 +160,25 @@ const SearchPage = () => {
             favorites={favorites}
             onRemove={removeFromFavorites}
             onClear={clearFavorites}
+            onAddToFavorites={addToFavorites}
           />
         </aside>
 
-        <main className="main-content">
+        <main 
+          className={`main-content ${removeZoneActive ? 'remove-zone-active' : ''}`}
+          onDragOver={handleMainDragOver}
+          onDragLeave={handleMainDragLeave}
+          onDrop={handleMainDrop}
+        >
+          {removeZoneActive && (
+            <div className="remove-zone-indicator">
+              <div className="remove-zone-content">
+                <span className="remove-icon">🗑️</span>
+                <span>Drop here to remove from favorites</span>
+              </div>
+            </div>
+          )}
+
           <form className="search-form" onSubmit={handleSearch}>
             <h2>Search Properties</h2>
             

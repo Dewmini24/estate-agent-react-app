@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import "../styles/FavoritesList.css";
 
-const FavoritesList = ({ favorites, onRemove, onClear }) => {
+const FavoritesList = ({ favorites, onRemove, onClear, onAddToFavorites }) => {
   const [draggedOver, setDraggedOver] = useState(false);
 
-  // Handle drag over
+  // Handle drag over - allows dropping
   const handleDragOver = (e) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
@@ -13,11 +13,20 @@ const FavoritesList = ({ favorites, onRemove, onClear }) => {
   };
 
   // Handle drag leave
-  const handleDragLeave = () => {
-    setDraggedOver(false);
+  const handleDragLeave = (e) => {
+    // Only set false if we're actually leaving the favorites list
+    const rect = e.currentTarget.getBoundingClientRect();
+    if (
+      e.clientX < rect.left ||
+      e.clientX >= rect.right ||
+      e.clientY < rect.top ||
+      e.clientY >= rect.bottom
+    ) {
+      setDraggedOver(false);
+    }
   };
 
-  // Handle drop
+  // Handle drop - add property to favorites
   const handleDrop = (e) => {
     e.preventDefault();
     setDraggedOver(false);
@@ -28,18 +37,27 @@ const FavoritesList = ({ favorites, onRemove, onClear }) => {
       // Check if property already exists in favorites
       const exists = favorites.some(fav => fav.id === propertyData.id);
       
-      if (!exists) {
-        console.log('Property dropped:', propertyData);
+      if (!exists && propertyData.id) {
+        onAddToFavorites(propertyData);
       }
     } catch (error) {
       console.error('Error parsing dropped data:', error);
     }
   };
 
-  // Handle remove by dragging out
+  // Handle remove by dragging out - start drag
   const handleItemDragStart = (e, property) => {
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData('remove-favorite', property.id);
+    e.dataTransfer.setData('application/json', JSON.stringify(property));
+    
+    // Add visual feedback
+    e.currentTarget.style.opacity = '0.5';
+  };
+
+  // Handle drag end - reset opacity
+  const handleItemDragEnd = (e) => {
+    e.currentTarget.style.opacity = '1';
   };
 
   // Format price
@@ -72,6 +90,9 @@ const FavoritesList = ({ favorites, onRemove, onClear }) => {
 
       {favorites.length === 0 ? (
         <div className="empty-favorites">
+          <div className="empty-icon">
+            <span style={{ fontSize: '2rem' }}>♥</span>
+          </div>
           <p>No favorites yet</p>
           <p className="drag-hint">Drag properties here or click the ☆ button</p>
         </div>
@@ -83,6 +104,7 @@ const FavoritesList = ({ favorites, onRemove, onClear }) => {
               className="favorite-item"
               draggable="true"
               onDragStart={(e) => handleItemDragStart(e, property)}
+              onDragEnd={handleItemDragEnd}
             >
               <Link to={`/property/${property.id}`} className="favorite-link">
                 <img 
@@ -95,7 +117,10 @@ const FavoritesList = ({ favorites, onRemove, onClear }) => {
                   <div className="favorite-meta">
                     {property.bedrooms} bed {property.type}
                   </div>
-                  <div className="favorite-location">{property.location}</div>
+                  <div className="favorite-location">
+                    <span>📍</span>
+                    {property.location}
+                  </div>
                 </div>
               </Link>
               <button 
@@ -112,7 +137,7 @@ const FavoritesList = ({ favorites, onRemove, onClear }) => {
 
       {draggedOver && (
         <div className="drop-indicator">
-          Drop here to add to favorites
+          <span>Drop here to add to favorites</span>
         </div>
       )}
     </div>
