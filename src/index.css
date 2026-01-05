@@ -1,39 +1,21 @@
-/* ============================= */
-/* DESIGN VARIABLES (REQUIRED) */
-/* ============================= */
-
+/* ===== Global Design Tokens ===== */
 :root {
   --background: #f6f7fb;
+  --foreground: #0f172a;
   --card: #ffffff;
-  --foreground: #111827;
-  --muted: #6b7280;
   --border: #e5e7eb;
+  --muted: #64748b;
 
   --primary: #2563eb;
-  --primary-dark: #1d4ed8;
+  --primary-dark: #1e40af;
 
-  --gradient-hero: linear-gradient(135deg, #2563eb, #3b82f6);
+  --gradient-hero: linear-gradient(135deg, #2563eb, #1e40af);
 
   --radius: 12px;
   --shadow-card: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
-/* ============================= */
-/* GLOBAL BASE STYLES */
-/* ============================= */
-
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Reset browser defaults safely */
+/* ===== Base Reset ===== */
 * {
   box-sizing: border-box;
 }
@@ -43,20 +25,21 @@ body {
   min-width: 320px;
   min-height: 100vh;
 
-  background-color: var(--background);
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background: var(--background);
   color: var(--foreground);
 }
 
-/* Typography */
-h1, h2, h3, h4, h5, h6 {
+/* Text */
+h1, h2, h3, h4, h5 {
   margin: 0;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--foreground);
 }
 
 p {
   margin: 0;
-  color: var(--muted);
+  color: #334155;
 }
 
 /* Links */
@@ -73,8 +56,6 @@ a:hover {
 button {
   font-family: inherit;
   cursor: pointer;
-  border: none;
-  background: none;
 }
 
 /* Images */
@@ -90,7 +71,7 @@ textarea {
   font-family: inherit;
 }
 
-/* Focus */
+/* Accessibility */
 :focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
