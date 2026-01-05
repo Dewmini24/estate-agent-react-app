@@ -1,52 +1,61 @@
-/* ===== Global Design Tokens - Dark Theme ===== */
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+
+/* ===== CSS VARIABLES ===== */
 :root {
-  /* Dark Theme Colors */
-  --background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1629 100%);
-  --foreground: #ffffff;
-  --card: rgba(30, 41, 59, 0.9);
-  --card-hover: rgba(30, 41, 59, 0.95);
-  --border: rgba(255, 255, 255, 0.1);
-  --muted: rgba(255, 255, 255, 0.6);
-
-  /* Primary Colors */
-  --primary: #3b82f6;
-  --primary-dark: #2563eb;
-  --secondary: #8b5cf6;
-  --accent: #ec4899;
-
+  /* Colors */
+  --color-bg-primary: #0a0e27;
+  --color-bg-secondary: #1a1f3a;
+  --color-bg-tertiary: #0f1629;
+  
+  --color-text-primary: #ffffff;
+  --color-text-secondary: rgba(255, 255, 255, 0.8);
+  --color-text-muted: rgba(255, 255, 255, 0.6);
+  
+  --color-card: rgba(30, 41, 59, 0.9);
+  --color-card-hover: rgba(30, 41, 59, 0.95);
+  
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-border-hover: rgba(59, 130, 246, 0.3);
+  
+  --color-primary: #3b82f6;
+  --color-primary-dark: #2563eb;
+  --color-secondary: #8b5cf6;
+  --color-accent: #ec4899;
+  --color-success: #10b981;
+  --color-danger: #ef4444;
+  
   /* Gradients */
   --gradient-hero: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
   --gradient-primary: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
   --gradient-favorite: linear-gradient(135deg, #ec4899 0%, #e11d48 100%);
-  --gradient-card: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
-
+  
   /* Shadows */
-  --shadow-card: 0 20px 60px rgba(0, 0, 0, 0.4);
-  --shadow-card-hover: 0 20px 60px rgba(59, 130, 246, 0.3);
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.4);
   --shadow-glow: 0 0 30px rgba(59, 130, 246, 0.4);
-
+  --shadow-glow-pink: 0 8px 30px rgba(236, 72, 153, 0.4);
+  
   /* Border Radius */
-  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
   --radius-lg: 20px;
   --radius-full: 9999px;
-
+  
   /* Spacing */
-  --spacing-xs: 0.5rem;
-  --spacing-sm: 1rem;
-  --spacing-md: 1.5rem;
-  --spacing-lg: 2rem;
-  --spacing-xl: 3rem;
-
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  
   /* Typography */
-  --font-primary: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-  --font-weight-normal: 400;
-  --font-weight-medium: 600;
-  --font-weight-bold: 700;
-  --font-weight-black: 900;
+  --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
-/* ===== Base Reset ===== */
-* {
+/* ===== RESET ===== */
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -57,60 +66,42 @@ html {
 }
 
 body {
-  margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  font-family: var(--font-primary);
-  background: var(--background);
-  color: var(--foreground);
+  font-family: var(--font-family);
+  background: linear-gradient(135deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 50%, var(--color-bg-tertiary) 100%);
+  color: var(--color-text-primary);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-/* ===== Typography ===== */
+/* ===== TYPOGRAPHY ===== */
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
-  font-weight: var(--font-weight-bold);
-  color: var(--foreground);
+  font-weight: 700;
+  color: var(--color-text-primary);
   line-height: 1.2;
 }
 
-h1 {
-  font-size: 3rem;
-  font-weight: var(--font-weight-black);
-  letter-spacing: -1px;
-}
+h1 { font-size: 3rem; font-weight: 900; letter-spacing: -1px; }
+h2 { font-size: 2rem; font-weight: 900; }
+h3 { font-size: 1.5rem; }
 
-h2 {
-  font-size: 2rem;
-  font-weight: var(--font-weight-black);
-}
+p { margin: 0; color: var(--color-text-muted); line-height: 1.7; }
 
-h3 {
-  font-size: 1.5rem;
-}
-
-p {
-  margin: 0;
-  color: var(--muted);
-  line-height: 1.7;
-}
-
-/* ===== Links ===== */
 a {
-  color: var(--primary);
+  color: var(--color-primary);
   text-decoration: none;
   transition: all 0.3s ease;
 }
 
 a:hover {
-  color: var(--secondary);
-  text-decoration: none;
+  color: var(--color-secondary);
 }
 
-/* ===== Buttons ===== */
+/* ===== FORM ELEMENTS ===== */
 button {
   font-family: inherit;
   cursor: pointer;
@@ -124,40 +115,17 @@ button:disabled {
   opacity: 0.6;
 }
 
-/* ===== Images ===== */
-img {
-  max-width: 100%;
-  display: block;
-  height: auto;
-}
-
-/* ===== Form Elements ===== */
-input,
-select,
-textarea {
+input, select, textarea {
   font-family: inherit;
   font-size: inherit;
-  color: var(--foreground);
+  color: var(--color-text-primary);
 }
 
-input::placeholder,
-textarea::placeholder {
+input::placeholder, textarea::placeholder {
   color: rgba(255, 255, 255, 0.4);
 }
 
-/* ===== Accessibility ===== */
-:focus-visible {
-  outline: 3px solid var(--primary);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-/* Remove outline for mouse users */
-:focus:not(:focus-visible) {
-  outline: none;
-}
-
-/* ===== Scrollbar Styling ===== */
+/* ===== SCROLLBAR ===== */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -178,18 +146,50 @@ textarea::placeholder {
   background: rgba(59, 130, 246, 0.7);
 }
 
-/* ===== Selection Styling ===== */
+/* ===== TEXT SELECTION ===== */
 ::selection {
   background: rgba(59, 130, 246, 0.3);
-  color: var(--foreground);
+  color: var(--color-text-primary);
 }
 
-::-moz-selection {
-  background: rgba(59, 130, 246, 0.3);
-  color: var(--foreground);
+/* ===== ACCESSIBILITY ===== */
+:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
-/* ===== Utility Classes ===== */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  10%, 30% { transform: scale(1.2); }
+  20%, 40% { transform: scale(1); }
+}
+
+/* ===== UTILITY CLASSES ===== */
 .gradient-text {
   background: var(--gradient-primary);
   -webkit-background-clip: text;
@@ -198,9 +198,9 @@ textarea::placeholder {
 }
 
 .glass-card {
-  background: var(--card);
+  background: var(--color-card);
   backdrop-filter: blur(20px);
-  border: 1px solid var(--border);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
 }
 
@@ -210,95 +210,28 @@ textarea::placeholder {
 
 .hover-lift:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-card-hover);
+  box-shadow: 0 20px 60px rgba(59, 130, 246, 0.3);
 }
 
-/* ===== Global Animations ===== */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 0.6;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* ===== Loading State ===== */
 .loading {
   display: inline-block;
   width: 20px;
   height: 20px;
   border: 3px solid rgba(255, 255, 255, 0.3);
-  border-top-color: var(--primary);
+  border-top-color: var(--color-primary);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
 
-/* ===== Responsive Typography ===== */
+/* ===== RESPONSIVE TYPOGRAPHY ===== */
 @media (max-width: 768px) {
-  h1 {
-    font-size: 2.5rem;
-  }
-
-  h2 {
-    font-size: 1.75rem;
-  }
-
-  h3 {
-    font-size: 1.25rem;
-  }
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.25rem; }
 }
 
 @media (max-width: 480px) {
-  h1 {
-    font-size: 2rem;
-  }
-
-  h2 {
-    font-size: 1.5rem;
-  }
-
-  h3 {
-    font-size: 1.125rem;
-  }
-}
-
-/* ===== Print Styles ===== */
-@media print {
-  body {
-    background: white;
-    color: black;
-  }
-
-  .no-print {
-    display: none !important;
-  }
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.125rem; }
 }
