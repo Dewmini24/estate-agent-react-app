@@ -1,248 +1,315 @@
-import { useState } from "react";
-import propertiesData from "../data/properties.json";
-import "../styles/SearchPage.css"; 
-import { Link } from "react-router-dom";
+import React, { useState, useMemo } from 'react';
+import propertiesData from '../data/properties.json';
+import PropertyCard from '../components/PropertyCard';
+import FavoritesList from '../components/FavoritesList';
+import "../styles/SearchPage.css";
 
-function SearchPage() {
-  const [typeFilter, setTypeFilter] = useState("any");
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
-  const [minBedrooms, setMinBedrooms] = useState("");
-  const [dateAfter, setDateAfter] = useState("");
-  const [postcode, setPostcode] = useState("");
-
-  const resetFilters = () => {
-    setTypeFilter("any");
-    setMinPrice("");
-    setMaxPrice("");
-    setMinBedrooms("");
-    setDateAfter("");
-    setPostcode("");
-  };
-
-  const parsePropertyDate = (added) => {
-  const months = {
-    January: 0, February: 1, March: 2, April: 3,
-    May: 4, June: 5, July: 6, August: 7,
-    September: 8, October: 9, November: 10, December: 11
-  };
-
-  return new Date(added.year, months[added.month], added.day);
-};
-
-  const filteredProperties = propertiesData.properties.filter((property) => {
-    // Type filter
-    if (typeFilter !== "any" && property.type.toLowerCase() !== typeFilter) {
-      return false;
-    }
-
-    // Min price filter
-    if (minPrice && property.price < Number(minPrice)) {
-      return false;
-    }
-
-    // Max price filter
-    if (maxPrice && property.price > Number(maxPrice)) {
-      return false;
-    }
-
-    // Min bedrooms filter
-    if (minBedrooms && property.bedrooms < Number(minBedrooms)) {
-      return false;
-    }
-
-    // Date added filter (after)
-    if (dateAfter) {
-        const propertyDate = parsePropertyDate(property.added);
-        
-        const selectedDate = new Date(dateAfter);
-        
-        if (propertyDate < selectedDate) {
-            return false;
-        }
-    }
-    
-    // Postcode area filter
-    if (postcode) {
-      if (!property.location.toUpperCase().includes(postcode.toUpperCase())) {
-        return false;
-      }
-    }
-
-    return true;
+const SearchPage = () => {
+  // Search criteria state
+  const [searchCriteria, setSearchCriteria] = useState({
+    type: 'any',
+    minPrice: '',
+    maxPrice: '',
+    minBedrooms: '',
+    maxBedrooms: '',
+    dateAfter: '',
+    dateBefore: '',
+    postcode: ''
   });
 
+  // Favorites state
+  const [favorites, setFavorites] = useState([]);
+  const [searchPerformed, setSearchPerformed] = useState(false);
+
+  // Handle input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setSearchCriteria(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Parse date from property format (e.g., {month: "October", day: 12, year: 2022})
+  const parsePropertyDate = (dateObj) => {
+    const monthMap = {
+      January: 0, February: 1, March: 2, April: 3, May: 4, June: 5,
+      July: 6, August: 7, September: 8, October: 9, November: 10, December: 11
+    };
+    return new Date(dateObj.year, monthMap[dateObj.month], dateObj.day);
+  };
+
+  // Search logic
+  const filteredProperties = useMemo(() => {
+    return propertiesData.properties.filter(property => {
+      // Type filter
+      if (searchCriteria.type !== 'any' && 
+          property.type.toLowerCase() !== searchCriteria.type.toLowerCase()) {
+        return false;
+      }
+
+      // Price filters
+      if (searchCriteria.minPrice && property.price < Number(searchCriteria.minPrice)) {
+        return false;
+      }
+      if (searchCriteria.maxPrice && property.price > Number(searchCriteria.maxPrice)) {
+        return false;
+      }
+
+      // Bedroom filters
+      if (searchCriteria.minBedrooms && property.bedrooms < Number(searchCriteria.minBedrooms)) {
+        return false;
+      }
+      if (searchCriteria.maxBedrooms && property.bedrooms > Number(searchCriteria.maxBedrooms)) {
+        return false;
+      }
+
+      // Date filters
+      const propertyDate = parsePropertyDate(property.added);
+      if (searchCriteria.dateAfter) {
+        const afterDate = new Date(searchCriteria.dateAfter);
+        if (propertyDate < afterDate) return false;
+      }
+      if (searchCriteria.dateBefore) {
+        const beforeDate = new Date(searchCriteria.dateBefore);
+        if (propertyDate > beforeDate) return false;
+      }
+
+      // Postcode filter (first part of postcode)
+      if (searchCriteria.postcode) {
+        const postcodePrefix = property.location.match(/[A-Z]+\d+/i)?.[0] || '';
+        if (!postcodePrefix.toLowerCase().includes(searchCriteria.postcode.toLowerCase())) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }, [searchCriteria]);
+
+  // Handle search button click
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setSearchPerformed(true);
+  };
+
+  // Reset search
+  const handleReset = () => {
+    setSearchCriteria({
+      type: 'any',
+      minPrice: '',
+      maxPrice: '',
+      minBedrooms: '',
+      maxBedrooms: '',
+      dateAfter: '',
+      dateBefore: '',
+      postcode: ''
+    });
+    setSearchPerformed(false);
+  };
+
+  // Add to favorites
+  const addToFavorites = (property) => {
+    if (!favorites.find(fav => fav.id === property.id)) {
+      setFavorites([...favorites, property]);
+    }
+  };
+
+  // Remove from favorites
+  const removeFromFavorites = (propertyId) => {
+    setFavorites(favorites.filter(fav => fav.id !== propertyId));
+  };
+
+  // Clear all favorites
+  const clearFavorites = () => {
+    setFavorites([]);
+  };
+
   return (
-  <div className="search-page">
-    {/* Header */}
-    <header className="header">
-      <div className="header-container">
-        <div className="logo">
-          <div className="logo-icon">YOUR HOME</div>
-          <span className="logo-text">💕</span>
-        </div>
-        <nav className="nav">
-          <a href="#" className="nav-link active">For Buyers</a>
-        </nav>
-      </div>
-    </header>
+    <div className="search-page">
+      <header className="page-header">
+        <h1>Find Your Dream Property</h1>
+        <p>Search from our collection of premium properties</p>
+      </header>
 
-    {/* Hero Section */}
-    <div className="main-container">
-      <div className="hero-section">
-        <h1 className="hero-title">
-          Find a perfect home<br />you'll love
-        </h1>
-        <p className="hero-subtitle">
-          Search thousands of properties for sale, purchase or rental of real estates.
-        </p>
-      </div>
+      <div className="search-container">
+        <aside className="favorites-sidebar">
+          <FavoritesList 
+            favorites={favorites}
+            onRemove={removeFromFavorites}
+            onClear={clearFavorites}
+          />
+        </aside>
 
-      {/* Search Filters */}
-      <div className="filters-card">
-        <div className="filters-grid">
-          <div className="filter-group">
-            <label className="filter-label">Property Type</label>
-            <select 
-              value={typeFilter} 
-              onChange={(e) => setTypeFilter(e.target.value)}
-              className="filter-input"
-            >
-              <option value="any">Any</option>
-              <option value="house">House</option>
-              <option value="flat">Flat</option>
-            </select>
-          </div>
-
-          <div className="filter-group">
-            <label className="filter-label">Min Price (£)</label>
-            <input
-              type="number"
-              value={minPrice}
-              onChange={(e) => setMinPrice(e.target.value)}
-              placeholder="e.g. 300000"
-              className="filter-input"
-            />
-          </div>
-
-          <div className="filter-group">
-            <label className="filter-label">Max Price (£)</label>
-            <input
-              type="number"
-              value={maxPrice}
-              onChange={(e) => setMaxPrice(e.target.value)}
-              placeholder="e.g. 800000"
-              className="filter-input"
-            />
-          </div>
-
-          <div className="filter-group">
-            <label className="filter-label">Min Bedrooms</label>
-            <input
-              type="number"
-              value={minBedrooms}
-              onChange={(e) => setMinBedrooms(e.target.value)}
-              placeholder="e.g. 2"
-              min="0"
-              className="filter-input"
-            />
-          </div>
-
-          <div className="filter-group">
-            <label className="filter-label">Date Added After</label>
-            <input
-              type="date"
-              value={dateAfter}
-              onChange={(e) => setDateAfter(e.target.value)}
-              className="filter-input"
-            />
-          </div>
-
-          <div className="filter-group">
-            <label className="filter-label">Postcode Area</label>
-            <input
-              type="text"
-              value={postcode}
-              onChange={(e) => setPostcode(e.target.value)}
-              placeholder="e.g. BR5"
-              className="filter-input postcode-input"
-            />
-          </div>
-        </div>
-
-        <div className="filters-grid">
-          <div className="filter-actions full-width">
-            <button onClick={resetFilters} className="btn-reset">
-              Reset
-            </button>
-            <button className="btn-search">
-              Search Property
-            </button>
-          </div>
-        </div>
-
-      </div>
-
-      {/* Results Header */}
-      <div className="results-header">
-        <h2 className="results-title">Available Properties</h2>
-        <p className="results-count">
-          {filteredProperties.length} {filteredProperties.length === 1 ? 'property' : 'properties'} found
-        </p>
-      </div>
-
-      {/* Property Grid */}
-      {filteredProperties.length > 0 ? (
-        <div className="property-grid">
-          {filteredProperties.map((property) => (
-            <div key={property.id} className="property-card">
-              <div className="property-image-wrapper">
-                <img
-                  src={property.picture}
-                  alt={property.type}
-                  className="property-image"
-                />
-                <div className="property-badge">
-                  {property.type}
-                </div>
-              </div>
-              
-              <div className="property-content">
-                <div className="property-price">
-                  £{property.price.toLocaleString()}
-                </div>
-                
-                <div className="property-details">
-                  <div className="property-detail">
-                    <span>🛏️ {property.bedrooms} Bedrooms</span>
-                  </div>
-                  <div className="property-detail">
-                    <span>📍 {property.location}</span>
-                  </div>
-                </div>
-
-                <Link
-                to={`/property/${property.id}`}
-                className="btn-view-details"
+        <main className="main-content">
+          <form className="search-form" onSubmit={handleSearch}>
+            <h2>Search Properties</h2>
+            
+            <div className="form-grid">
+              {/* Property Type */}
+              <div className="form-group">
+                <label htmlFor="type">Property Type</label>
+                <select
+                  id="type"
+                  name="type"
+                  value={searchCriteria.type}
+                  onChange={handleInputChange}
+                  className="form-control"
                 >
-                  View Details
-                </Link>
+                  <option value="any">Any</option>
+                  <option value="house">House</option>
+                  <option value="flat">Flat</option>
+                </select>
+              </div>
 
+              {/* Min Price */}
+              <div className="form-group">
+                <label htmlFor="minPrice">Min Price (£)</label>
+                <input
+                  type="number"
+                  id="minPrice"
+                  name="minPrice"
+                  value={searchCriteria.minPrice}
+                  onChange={handleInputChange}
+                  placeholder="e.g., 250000"
+                  className="form-control"
+                  min="0"
+                  step="1000"
+                />
+              </div>
+
+              {/* Max Price */}
+              <div className="form-group">
+                <label htmlFor="maxPrice">Max Price (£)</label>
+                <input
+                  type="number"
+                  id="maxPrice"
+                  name="maxPrice"
+                  value={searchCriteria.maxPrice}
+                  onChange={handleInputChange}
+                  placeholder="e.g., 500000"
+                  className="form-control"
+                  min="0"
+                  step="1000"
+                />
+              </div>
+
+              {/* Min Bedrooms */}
+              <div className="form-group">
+                <label htmlFor="minBedrooms">Min Bedrooms</label>
+                <input
+                  type="number"
+                  id="minBedrooms"
+                  name="minBedrooms"
+                  value={searchCriteria.minBedrooms}
+                  onChange={handleInputChange}
+                  placeholder="e.g., 2"
+                  className="form-control"
+                  min="0"
+                  max="10"
+                />
+              </div>
+
+              {/* Max Bedrooms */}
+              <div className="form-group">
+                <label htmlFor="maxBedrooms">Max Bedrooms</label>
+                <input
+                  type="number"
+                  id="maxBedrooms"
+                  name="maxBedrooms"
+                  value={searchCriteria.maxBedrooms}
+                  onChange={handleInputChange}
+                  placeholder="e.g., 4"
+                  className="form-control"
+                  min="0"
+                  max="10"
+                />
+              </div>
+
+              {/* Date After */}
+              <div className="form-group">
+                <label htmlFor="dateAfter">Date Added After</label>
+                <input
+                  type="date"
+                  id="dateAfter"
+                  name="dateAfter"
+                  value={searchCriteria.dateAfter}
+                  onChange={handleInputChange}
+                  className="form-control"
+                />
+              </div>
+
+              {/* Date Before */}
+              <div className="form-group">
+                <label htmlFor="dateBefore">Date Added Before</label>
+                <input
+                  type="date"
+                  id="dateBefore"
+                  name="dateBefore"
+                  value={searchCriteria.dateBefore}
+                  onChange={handleInputChange}
+                  className="form-control"
+                />
+              </div>
+
+              {/* Postcode */}
+              <div className="form-group">
+                <label htmlFor="postcode">Postcode Area</label>
+                <input
+                  type="text"
+                  id="postcode"
+                  name="postcode"
+                  value={searchCriteria.postcode}
+                  onChange={handleInputChange}
+                  placeholder="e.g., BR1, BR2"
+                  className="form-control"
+                  style={{ textTransform: 'uppercase' }}
+                />
               </div>
             </div>
-          ))}
-        </div>
-      ) : (
-        <div className="empty-state">
-          <div className="empty-icon">🏠</div>
-          <h3 className="empty-title">No properties found</h3>
-          <p className="empty-text">Try adjusting your search criteria</p>
-        </div>
-      )}
-    </div>
-  </div>
-);
 
-}
+            <div className="button-group">
+              <button type="submit" className="btn btn-primary">
+                Search Properties
+              </button>
+              <button type="button" onClick={handleReset} className="btn btn-secondary">
+                Reset
+              </button>
+            </div>
+          </form>
+
+          {/* Results Section */}
+          <section className="results-section">
+            <div className="results-header">
+              <h2>
+                {searchPerformed 
+                  ? `Found ${filteredProperties.length} ${filteredProperties.length === 1 ? 'Property' : 'Properties'}`
+                  : 'All Properties'}
+              </h2>
+            </div>
+
+            <div className="properties-grid">
+              {(searchPerformed ? filteredProperties : propertiesData.properties).map(property => (
+                <PropertyCard
+                  key={property.id}
+                  property={property}
+                  onAddToFavorites={addToFavorites}
+                  isFavorite={favorites.some(fav => fav.id === property.id)}
+                />
+              ))}
+            </div>
+
+            {searchPerformed && filteredProperties.length === 0 && (
+              <div className="no-results">
+                <p>No properties found matching your criteria.</p>
+                <p>Try adjusting your search filters.</p>
+              </div>
+            )}
+          </section>
+        </main>
+      </div>
+    </div>
+  );
+};
 
 export default SearchPage;

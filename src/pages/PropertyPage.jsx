@@ -13,101 +13,123 @@ function PropertyPage() {
   const [activeImage, setActiveImage] = useState(0);
   const [activeTab, setActiveTab] = useState("description");
 
+  // Extract postcode from location (e.g., "High Street, Orpington BR6" -> "BR6")
+  const extractPostcode = (location) => {
+    if (!location) return 'N/A';
+    const match = location.match(/\b[A-Z]{1,2}[0-9]{1,2}[A-Z]?\b/);
+    return match ? match[0] : 'N/A';
+  };
+
   if (!property) {
-    return <h2 style={{ color: "white" }}>Property not found</h2>;
+    return (
+      <div className="property-page">
+        <h2>Property not found</h2>
+        <Link to="/" className="back-link">
+          ← Back to Search
+        </Link>
+      </div>
+    );
   }
 
   return (
     <div className="property-page">
-
-      {/* TITLE */}
-      <h1 style={{ marginBottom: "20px" }}>
-        {property.type} – £{property.price.toLocaleString()}
-      </h1>
-
-      {/* IMAGE GALLERY */}
-      <div className="gallery">
-        <img
-          src={property.images[activeImage]}
-          alt={property.type}
-          className="main-image"
-        />
-
-        <div className="thumbnails">
-          {property.images.map((img, index) => (
-            <img
-              key={index}
-              src={img}
-              alt="thumbnail"
-              className={index === activeImage ? "thumb active" : "thumb"}
-              onClick={() => setActiveImage(index)}
-            />
-          ))}
+      
+      {/* HEADER SECTION */}
+      <div className="property-header">
+        <h1>
+          {property.type} – £{property.price.toLocaleString()}
+        </h1>
+        <p className="property-location">{property.location}</p>
+        
+        <div className="property-details">
+          <div className="detail-item">
+            <div className="detail-label">Bedrooms</div>
+            <div className="detail-value">{property.bedrooms}</div>
+          </div>
+          <div className="detail-item">
+            <div className="detail-label">Type</div>
+            <div className="detail-value">{property.type}</div>
+          </div>
+          <div className="detail-item">
+            <div className="detail-label">Postcode</div>
+            <div className="detail-value">{extractPostcode(property.location)}</div>
+          </div>
         </div>
       </div>
 
-      {/* TABS */}
-      <div className="tabs">
-        <button
-        className={activeTab === "description" ? "tab active" : "tab"}
-        onClick={() => setActiveTab("description")}
-        >
-          Description
-        </button>
+      {/* GALLERY SECTION */}
+      <div className="gallery">
+        <img
+          src={property.images?.[activeImage] || property.picture}
+          alt={`${property.type} - Image ${activeImage + 1}`}
+          className="main-image"
+        />
         
-        <button
-        className={activeTab === "floorplan" ? "tab active" : "tab"}
-        onClick={() => setActiveTab("floorplan")}
-        >
-          Floor Plan
-        </button>
-        
-        <button
-        className={activeTab === "map" ? "tab active" : "tab"}
-        onClick={() => setActiveTab("map")}
-        >
-          Map
-        </button>
+        {property.images && property.images.length > 1 && (
+          <div className="thumbnails">
+            {property.images.map((img, index) => (
+              <img
+                key={index}
+                src={img}
+                alt={`Thumbnail ${index + 1}`}
+                className={`thumb ${index === activeImage ? "active" : ""}`}
+                onClick={() => setActiveImage(index)}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
+      {/* TABS SECTION */}
+      <div className="tabs-container">
+        <div className="tabs">
+          <button
+            className={`tab ${activeTab === "description" ? "active" : ""}`}
+            onClick={() => setActiveTab("description")}
+          >
+            📝 Description
+          </button>
+          
+          <button
+            className={`tab ${activeTab === "floorplan" ? "active" : ""}`}
+            onClick={() => setActiveTab("floorplan")}
+          >
+            📐 Floor Plan
+          </button>
+          
+          <button
+            className={`tab ${activeTab === "map" ? "active" : ""}`}
+            onClick={() => setActiveTab("map")}
+          >
+            🗺️ Map
+          </button>
+        </div>
 
-      {/* TAB CONTENT */}
-      <div className="tab-content">
-        
-        {activeTab === "description" && (
-          <p>{property.description}</p>
-        )}
+        <div className="tab-content">
+          {activeTab === "description" && (
+            <p>{property.description || "No description available for this property."}</p>
+          )}
 
-        {activeTab === "floorplan" && (
-          property.floorPlan ? (
-            <img
-              src={property.floorPlan}
-              alt="Floor Plan"
-              className="floorplan"
+          {activeTab === "floorplan" && (
+            property.floorPlan ? (
+              <img src={property.floorPlan} alt="Floor Plan" />
+            ) : (
+              <p>Floor plan not available for this property.</p>
+            )
+          )}
+
+          {activeTab === "map" && (
+            <iframe
+              title={`Map of ${property.location}`}
+              src={`https://maps.google.com/maps?q=${encodeURIComponent(property.location)}&output=embed`}
+              width="100%"
+              height="400"
             />
-          ) : (
-            <p>No floor plan available for this property.</p>
-          )
-        )}
-      
-        {activeTab === "map" && (
-          <iframe
-            title="map"
-            src={`https://maps.google.com/maps?q=${encodeURIComponent(
-              property.location
-            )}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
-            width="100%"
-            height="300"
-          />
-        )}
+          )}
+        </div>
       </div>
 
-      {/* BACK LINK */}
-      <Link
-        to="/"
-        className="btn-view-details"
-        style={{ marginTop: "20px", display: "inline-block" }}
-      >
+      <Link to="/" className="back-link">
         ← Back to Search
       </Link>
 

@@ -16,7 +16,9 @@
                 "/images/prop1pic3small.jpg",
                 "/images/prop1pic4small.jpg",
                 "/images/prop1pic5small.jpg",
-                "/images/prop1pic6small.jpg"
+                "/images/prop1pic6small.jpg",
+                "/images/prop1pic7small.jpg",
+                "/images/prop1pic8small.jpg"
             ],
             "floorPlan": "/images/prop1floorplan.jpg",
             "added": {
@@ -41,7 +43,8 @@
                 "/images/prop2pic3small.jpg",
                 "/images/prop2pic4small.jpg",
                 "/images/prop2pic5small.jpg",
-                "/images/prop2pic6small.jpg"
+                "/images/prop2pic6small.jpg",
+                "/images/prop2pic7small.jpg"
             ],
             "floorPlan": "/images/prop2floorplan.jpg",
             "added": {
