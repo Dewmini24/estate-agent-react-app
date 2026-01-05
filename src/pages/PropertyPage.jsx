@@ -60,7 +60,7 @@ function PropertyPage() {
       {/* GALLERY SECTION */}
       <div className="gallery">
         <img
-          src={property.images?.[activeImage] || property.picture}
+          src={`${import.meta.env.BASE_URL}${property.images?.[activeImage] || property.picture}`}
           alt={`${property.type} - Image ${activeImage + 1}`}
           className="main-image"
         />
@@ -70,11 +70,12 @@ function PropertyPage() {
             {property.images.map((img, index) => (
               <img
                 key={index}
-                src={img}
+                src={`${import.meta.env.BASE_URL}${img}`}
                 alt={`Thumbnail ${index + 1}`}
                 className={`thumb ${index === activeImage ? "active" : ""}`}
                 onClick={() => setActiveImage(index)}
               />
+
             ))}
           </div>
         )}
@@ -112,7 +113,10 @@ function PropertyPage() {
 
           {activeTab === "floorplan" && (
             property.floorPlan ? (
-              <img src={property.floorPlan} alt="Floor Plan" />
+              <img
+                src={`${import.meta.env.BASE_URL}${property.floorPlan}`}
+                alt="Floor Plan"
+              />
             ) : (
               <p>Floor plan not available for this property.</p>
             )
